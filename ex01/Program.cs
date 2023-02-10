@@ -50,11 +50,16 @@ void CalcFreqNum(int[,] matrix, int[,] array)
     }
 }
 
-void PrintFreq(int[,] arg, int ammount)
+void FillUniqList(int[,] FreqMatrix, List<int> UniqElem, int rows)  //наполняет уникальный массив и выводит частоту на экран
 {
-    for (int i = 0; i < arg.GetLength(0); i++)
+    for (int i = 0; i < rows; i++)
     {
-        Console.WriteLine($"Число {arg[i,1]} встречается с частотой {(((double)arg[i,0] / ammount) * 100).ToString("0.##")}%");
+        int x = FreqMatrix[i,1];
+        if (!UniqElem.Contains(x))      //проверям содержит ли список UniqElem значение массива FreqMatrix, если не содержит то добавляем его
+        {
+            UniqElem.Add(x);
+            Console.WriteLine($"Число {FreqMatrix[i,1]} встречается с частотой {(((double)FreqMatrix[i,0] / rows) * 100).ToString("0.##")}%");
+        }
     }
 }
 
@@ -67,6 +72,8 @@ int[,] matrix = new int[m,n];
 
 int[,] freq = new int[matrix.Length, 2];        //создаем двумерный массив, в котором два столбца и количество строк равное matrix.length - количество элементов массива matrix
 
+List<int> Uniq = new List<int>();           //создаем динамический массив для уникальных элементов, динамический потому что не знаем сколько их будет
+
 FillMatrix(matrix);
 
 PrintMatrix(matrix);
@@ -74,11 +81,4 @@ PrintMatrix(matrix);
 Console.WriteLine();
 CalcFreqNum(matrix, freq);
 
-
-
-Console.WriteLine();
-
-PrintMatrix(freq);
-Console.WriteLine();
-
-PrintFreq(freq, m*n);
+FillUniqList(freq, Uniq, m*n);
